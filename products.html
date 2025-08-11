@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Products - Auto Care Services</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .brands-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            margin-bottom: 2rem;
+            margin-top: 100px;
+        }
+
+        .brand-logo {
+            width: 220px;
+            height: auto;
+            max-height: 120px;
+            object-fit: contain;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 8px;
+            margin: 0 24px;
+        }
+
+        .brand-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .brand-logo.active {
+            border: 2px solid #007bff;
+            box-shadow: 0 0 10px rgba(0,123,255,0.2);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-price {
+            font-weight: 700;
+            color: #007bff;
+        }
+
+        .add-to-cart {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background: #0056b3;
+        }
+
+        .product-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            align-items: center;
+            justify-content: center;
+        }
+        .product-modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 540px;
+            min-height: 420px;
+            margin: auto;
+            border-radius: 16px;
+            padding: 2.5rem 2.5rem 2.5rem 2rem;
+            position: relative;
+            display: flex;
+            gap: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            align-items: center;
+        }
+        .product-modal.show .modal-content {
+            transform: translateY(0);
+        }
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            color: #333;
+            cursor: pointer;
+        }
+        .modal-image {
+            flex: 1 1 200px;
+            min-width: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 260px;
+        }
+        .modal-image img {
+            max-width: 180px;
+            max-height: 240px;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            object-fit: contain;
+            margin: auto;
+        }
+        .modal-details {
+            flex: 2 1 320px;
+            min-width: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .modal-details h2 {
+            margin-top: 0;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .modal-price {
+            color: #007bff;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0 0 1rem 0;
+        }
+        .modal-desc {
+            color: #444;
+            font-size: 1rem;
+            margin-bottom: 1.2rem;
+        }
+        .modal-features {
+            margin-bottom: 1.2rem;
+        }
+        .modal-features-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .modal-features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .modal-features-list li {
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            color: #222;
+            margin-bottom: 0.3rem;
+        }
+        .modal-features-list li .checkmark {
+            color: #2e7d32;
+            font-size: 1.1rem;
+            margin-right: 0.5em;
+        }
+        .modal-qty {
+            display: flex;
+            align-items: center;
+            margin: 1.2rem 0 1.2rem 0;
+        }
+        .modal-qty button {
+            width: 32px; height: 32px;
+            font-size: 1.2rem;
+            border: 1px solid #ccc;
+            background: #f8f8f8;
+            cursor: pointer;
+        }
+        .modal-qty input {
+            width: 50px;
+            text-align: center;
+            margin: 0 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            height: 32px;
+        }
+        .modal-add {
+            margin-top: 0.5rem;
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,123,255,0.08);
+            transition: background 0.2s;
+        }
+        .modal-add:hover {
+            background: #0056b3;
+        }
+        @media (max-width: 800px) {
+            .modal-content {
+                flex-direction: column;
+                gap: 1.5rem;
+                max-width: 95vw;
+                min-height: unset;
+            }
+            .modal-image {
+                margin-bottom: 1rem;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo"><img src="images/logos/The_Automotive-removebg-preview.png" height="40px" alt="Auto Care Logo"></div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop Now</a>
+            <a href="products.html" class="active">Products</a>
+            <a href="contact.html">Contact Us</a>
+            <a href="blog.html">Blog/News</a>
+            <a href="training.html">Training Programs</a>
+            <button class="login-btn">Login</button>
+        </div>
+    </nav>
+
+    <!-- Brands Section -->
+    <div class="brands-container">
+        <img src="images/logos/cleanbro.png" alt="Cleanbro" class="brand-logo active" data-brand="cleanbro">
+        <img src="images/logos/Wilita_Logo_highres-01.png" alt="Wilita" class="brand-logo" data-brand="wilita">
+        <img src="images/logos/Alloygator/Medium/Five Star Fitter Logo@2x-100.jpg" alt="Alloygator" class="brand-logo" data-brand="alloygator">
+        <img src="images/logos/shinemate_logo.png" alt="ShineMate" class="brand-logo" data-brand="shinemate">
+        <img src="images/TAS/304494204_446501304180989_4901667174208258646_n-removebg-preview.png" alt="TAC Systems" class="brand-logo" data-brand="tac">
+    </div>
+
+    <!-- Products Grid -->
+    <div class="products-grid" id="productsGrid">
+        <!-- Products will be dynamically loaded here -->
+    </div>
+
+    <!-- Product Modal -->
+    <div class="product-modal" id="productModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <div class="modal-image">
+                <img id="modalProductImage" src="" alt="Product Image">
+            </div>
+            <div class="modal-details">
+                <h2 id="modalProductTitle"></h2>
+                <p class="modal-price" id="modalProductPrice"></p>
+                <p id="modalProductDescription" class="modal-desc"></p>
+                <div id="modalProductFeatures" class="modal-features">
+                    <!-- Features will be injected here -->
+                </div>
+                <div class="modal-qty">
+                    <button id="qtyMinus">-</button>
+                    <input type="number" id="modalQty" value="1" min="1">
+                    <button id="qtyPlus">+</button>
+                </div>
+                <button class="add-to-cart modal-add">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="images/logos/The_Automotive-removebg-preview.png" alt="Auto Care" class="footer-logo">
+                <p class="footer-tagline">Expert auto care, premium products, and trusted service.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram" class="social-link">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"></rect><circle cx="12" cy="12" r="3.5" fill="none" stroke="currentColor" stroke-width="2"></circle><circle cx="17.5" cy="6.5" r="1.25" fill="currentColor"></circle></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul class="footer-list">
+                    <li><a href="shop.html">Book Now</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="training.html">Training Programs</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Contact</h4>
+                <ul class="footer-list">
+                    <li>
+                        <span class="icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6l8 6 8-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="3" y="5" width="18" height="14" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                        </span>
+                        <a href="mailto:info@example.com">info@example.com</a>
+                    </li>
+                    <li>
+                        <span class="icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v2a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.9 3.8 2 2 0 0 1 5 1.7h2a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8.3 9a16 16 0 0 0 6 6l.9-.8a2 2 0 0 1 2.2-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <a href="tel:5551234567">(555) 123-4567</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer-newsletter">
+                <h4>Stay Updated</h4>
+                <form class="footer-form" action="#" method="post" onsubmit="return false">
+                    <input type="email" placeholder="Your email address" aria-label="Email address">
+                    <button type="submit" class="footer-btn">Subscribe</button>
+                </form>
+                <small class="footer-note">No spam. Unsubscribe anytime.</small>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Auto Care. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample product data (you can replace this with your actual product data)
+        const products = {
+            cleanbro: [
+            {
+                    name: "CLEAN BRO - Hybrid Wiper Blade",
+                    description: "Cleanbro Hybrid wiper blades meet or exceeds original equipment manufacturers ’quality, and its aerodynamic design ensures wiper contact positively at various driving speeds.Streamlined spoiler that resists wind-lift when driving at high speeds，and Robust superstructure for durable all-weather performance.Graphite coating rubber element for a smooth, clean and quiet No jitter operation.",
+                    price: "LKR 2150.00",
+                    image: "images/Popular products/Cleanbro/Cleanbro_hybrid.png"
+                },
+                {
+                    name: "CLEAN BRO - Frameless Wiper Blade",
+                    description: "The Frameless Wiper Blade is a modern upgrade from traditional wipers, featuring a sleek, all-rubber design without an external frame. Its flexible structure ensures uniform pressure distribution across the windshield for a superior wiping experience. Designed with an aerodynamic spoiler, it minimizes wind-lift at high speeds, enhancing stability and performance in all weather conditions. Equipped with a graphite-coated rubber element, it delivers a smooth, streak-free, and ultra-quiet wipe—free from chatter or vibration.",
+                    price: "LKR 2850.00",
+                    image: "images/Popular products/Cleanbro/Cleanbro_frameless.png"
+                },
+                {
+                    name: "CLEAN BRO - Glass Sealant - 100ml",
+                    description: "This product uses a high-concentration silicone solution from Japan to form a strong, water-repellent coating on glass surfaces. It causes rain to form droplets that slide off, ensuring clear visibility without streaks. Withstanding water splashing at speeds up to 60km/h. It also prevents dirt, mud, and dust buildup, ensuring safety and clarity, while easily removing frost and preventing icing in winter. Suitable for all vehicle glass.",
+                    price: "$79.99",
+                    image: "images/Popular products/Cleanbro/Cleanbro_glass_sealent.png"
+                },
+                {
+                    name: "CLEAN BRO Oil Removal - (Glass cleaner) -100ml",
+                    description: "Triple abrasive action removes traffic film, glass coatings, oily dirt, and water spots from the glass surface, leaving it looking like new.",
+                    price: "LKR 7000.00",
+                    image: "images/Popular products/Cleanbro/Cleanbro_oil_removal.png"
+                }
+            ],
+            wilita: [
+            {
+                    name: "Exhaust System Cleaner (ESC)",
+                    description: "Engineered to remove carbon and residue from intake manifold, combustion chamber and exhaust system.",
+                    price: "LKR 4200.00",
+                    image: "images/All products/Wilita/W - ESC.png"
+                },
+                {
+                    name: "Fuel System Cleaner 500ml (FSC)",
+                    description: "Engineered to clean carbon build-up accumulated in oxygen sensors, fuel injectors, cylinder heads and intake valves to enhance engine performance, restores power, performance and drivability. WILITA Gasoline System Cleaner can effectively fix drivability issues such as engine performance reduction, hesitation, cold start, rough idling, stalling, engine knocking and pinging which caused by the accumulation of carbon residue. ",
+                    price: "LKR 3500.00",
+                    image: "images/Popular products/Wilita/FSC_WILITA.png"
+                },
+                {
+                    name: "CARBURETOR CLEANER - 600ml",
+                    description: "Advanced formula suitable for all types of engines.Effectively removes gum, varnish, sludge, and carbon deposits from throttle valves, PCV valves, cold start systems, and air intake components ",
+                    price: "LKR 2175.00",
+                    image: "images/All products/Wilita/W- CC.png"
+                },
+                {
+                    name: "FOAMING CHOKE AND CARB CLEANER - 600ml",
+                    description: "Our Foaming Choke & Carb Cleaner is a fast-acting aerosol formula designed to clean stubborn deposits from carburetors, chokes, throttle bodies, and linkages. The high-penetration foaming action lifts away grease, gum, and carbon build-up, helping restore smooth airflow and engine efficiency. ",
+                    price: "LKR 3300.00",
+                    image: "images/All products/Wilita/W- FC.png"
+                },
+                {
+                    name: "Diesel Injector Cleaner 1ltr (DSC)",
+                    description: "Add-and-drive convenience: the formula deep-cleans your entire diesel injection system without dismantling a thing, wiping out stubborn deposits for instant power and smoother, quieter performance.Benefit every kilometer with cleaner exhaust and lower fuel consumption that keeps both your engine—and your wallet—running lean.",
+                    price: "LKR 5500.00",
+                    image: "images/All products/Wilita/W- DSC.png"
+                },
+                {
+                    name: "Radiator Coolant and Antifreeze 50% 3.78ltr",
+                    description: "Engineered to efficiently transfer heat for all vehicles, Wilita Radiator Coolant and Anti-freeze prevents scale and corrosion of the radiator and the engine cooling system. Wilita Radiator Coolant and Anti-freeze helps the engine to give optimum performance. ",
+                    price: "LKR 4700.00",
+                    image: "images/Popular products/Wilita/Radiant_cooler.png"
+                },
+                {
+                    name: "Radiator Coolant and Anti Freeze 1ltr",
+                    description: "Engineered to efficiently transfer heat for all vehicles, Wilita Radiator Coolant and Anti-freeze prevents scale and corrosion of the radiator and the engine cooling system. Wilita Radiator Coolant and Anti-freeze helps the engine to give optimum performance.",
+                    price: "LKR 3100.00",
+                    image: "images/All products/Wilita/W- RC.png"
+                },
+                {
+                    name: "Radiator Stop Leak 250ml",
+                    description: "Seals hairline cracks and small leaks. Prevents coolant loss. Plugs the pin-holes in the radiator.",
+                    price: "LKR 1450.00",
+                    image: "images/All products/Wilita/W- RSL.png"
+                },
+                {
+                    name: "Brake & Parts Cleaner 600ml",
+                    description: "Engineered to remove brake fluid, grease, oil and other contaminants from brake parts and drums quickly and easily. Also used as general parts cleaner.",
+                    price: "LKR 2250.00",
+                    image: "images/All products/Wilita/W- BPC.png"
+                },
+                {
+                    name: "Rubberised Undercoating 600ml",
+                    description: "Engineered to be a professional grade undercoating that seals and insulates, Wilita Rubberized Undercoating effectively protects against rust and corrosion and quiets road noise.",
+                    price: "LKR 3400.00",
+                    image: "images/All products/Wilita/W- RUC.png"
+                },
+                {
+                    name: "Rubberised Undercoating 1ltr Water Base",
+                    description: "Engineered to be a professional grade undercoating that seals and insulates, Wilita Rubberized Undercoating effectively protects against rust and corrosion and quiets road noises.",
+                    price: "LKR 6600.00",
+                    image: "images/All products/Wilita/W- WBUC.png"
+                },
+                {
+                    name: "Foaming Engine Degreaser 600ml",
+                    description: "Foam-on, self-emulsifying action liquefies the toughest grease, tar and oil in seconds, restoring engines and painted panels to showroom clean.",
+                    price: "LKR 3100.00",
+                    image: "images/All products/Wilita/W- FED.png"
+                },
+                {
+                    name: "Silicone Lubricant 600ml ",
+                    description: "WILITA Silicone Lubricant is specially formulated to provide superior all purpose lubrication and protection for rubber and plastic parts. Prolongs life, prevents squeaks and lubricates. Performs excellently in lubricating the rubber parts of car window without leaving grease and stains. ",
+                    price: "LKR 2950.00",
+                    image: "images/Popular products/Wilita/Silicon_lubricant.png"
+                },
+                {
+                    name: "Upholstery Cleaner 500ml - Foam",
+                    description: "One spray tackles it all—this universal formula lifts grime and neutralizes odors on fabric, leather, plastic, wood, vinyl and more.",
+                    price: "LKR 2250.00",
+                    image: "images/All products/Wilita/W- UCS500.png"
+                },
+                {
+                    name: "Upholstery Cleaner 600ml - Foam",
+                    description: "Engineered as a foaming cleaner with fantastic versatility, Wilita Upholstery Cleaner contains a carefully balanced blend of surface active ingredients and deodorizing agents to deep clean quickly and safely. ",
+                    price: "LKR 2250.00",
+                    image: "images/Popular products/Wilita/Upholstery.png"
+                },
+                {
+                    name: "Upholstery Shine 600ml",
+                    description: "Spray-on polymer gloss wraps upholstery in a brilliant, showroom shine while sealing out spills with water-beading, UV-blocking protection.",
+                    price: "LKR 2250.00",
+                    image: "images/All products/Wilita/W- US.png"
+                },
+                {
+                    name: "Leather Care Cream 500ml",
+                    description: "Dual-action lotion nourishes leather in cars or at home, lifting dirt while buffing in a supple, showroom sheen.",
+                    price: "LKR 3300.00",
+                    image: "images/All products/Wilita/W- LCC.png"
+                },
+                {
+                    name: "Tyre and Trim Detailer 500ml",
+                    description: "Engineered with exclusive formula to provide deep gloss shine, Wilita Tyre & Trim Detailer ensures long lasting wet look on tyre surface with UV protection. It creates an active barrier to protect tyres from damaging from road grim, environmental factors and oxidation.",
+                    price: "LKR 2650.00",
+                    image: "images/All products/Wilita/W- TAT.png"
+                },
+                {
+                    name: "Glass Cleaner 500ml",
+                    description: "Engineered with a specialized formula for cleaning windshield glass, Wilita Glass Cleaner easily removes dirt and grime. It is safe for use on painted surfaces and is specifically formulated for automotive use, tackling the toughest cleaning jobs without damaging delicate surfaces.",
+                    price: "LKR 1450.00",
+                    image: "images/All products/Wilita/W- GC500.png"
+                },
+                {
+                    name: "Premium Hard Wax",
+                    description: "Wilita Premium Hard Wax is a high-quality wax that provides a durable and protective finish for your vehicle's paint. It helps to protect the paint from UV damage, rust, and corrosion, while also providing a glossy finish. ",
+                    price: "LKR 5750.00",
+                    image: "images/Popular products/Wilita/Hard_wax.png"
+                },
+                {
+                    name: "Car Swirl Restore 300ml",
+                    description: "Revitalize your vehicle's appearance and enhance safety with the Wilita Car Swirl Restore. Engineered to tackle hazy, yellowed, or scratched headlights, this premium formula restores clarity and brilliance to your headlights, improving night time visibility and giving your car a like-new look.",
+                    price: "LKR 2700.00",
+                    image: "images/All products/Wilita/W- CSR.png"
+                },
+                {
+                    name: "Iron & Rust Remover 3.78ltrs",
+                    description: "Iron rust remover contains penetrating and cleansing ingredients, which can remove the iron dust particles and oil stains of the aluminum rim, steel rim, brake disc, and other hard to remove particles. Stubborn dirt can be easily and quickly be removed. it is gentle and does not damage the paint.",
+                    price: "LKR 13350.00",
+                    image: "images/All products/Wilita/W- IRr.png"
+                },
+                {
+                    name: "Quick Shine 500ml",
+                    description: "Nano-molecular shield bonds instantly to wet or dry paint, flinging off water, dust, and oily grime before it can stick.",
+                    price: "LKR 6500.00",
+                    image: "images/All products/Wilita/W- QS.png"
+                },
+                {
+                    name: "Rust Off Plus 300ml",
+                    description: "Engineered to optimal creep properties guarantee outstanding penetration and removal of rust. Wilita Rust off plus is a optimal corrosion protection additives. Contains liquid, highly effective molybdenum compound OMC2.",
+                    price: "LKR 2200.00",
+                    image: "images/All products/Wilita/W - ROP.png"
+                },
+                {
+                    name: "Super Grease 600ml",
+                    description: "Engineered with synthetic fluids, lithium base compound and exclusive heavy-duty micro additives, Wilita Super Grease offers excellent adhesion and protection against friction, wear, rust and corrosion for all metal parts, it will not run or dip, and is resistant to high temperature up to 180°C (356°F). ",
+                    price: "LKR 2400.00",
+                    image: "images/Popular products/Wilita/SuperGrease.png"
+                },
+                {
+                    name: "Penetrant and Lubricant 600ml",
+                    description: "Engineered to loosen rust and corrosion almost instantly, It is a unique blend of fast-acting, super-penetrating solvents that evaporate, leaving a thin transparent protective film. It penetrates quickly into cracks, crevices, and threads, freeing rusted and frozen bots. Nuts, assemblies and other fasteners. Annoying squeaks are silenced by this friction-reducing lubricant. Wilita Penetrant & Lubricant cleans as it protects all metals from rust and corrosion. Grease, tar, oil, adhesives, and grime are easily removed from most surfaces. ",
+                    price: "LKR 2300.00",
+                    image: "images/Popular products/Wilita/Penetrant.png"
+                },
+                {
+                    name: "Engine Flush and Cleaner 300ml",
+                    description: "Engineered to help the engine run smoothly, regain lost horsepower, and protect it from damage, Wilita Engine Flush ensures proper lubrication and reaches every corner of the engine to clean accumulated carbon and gum deposits.",
+                    price: "LKR 2800.00",
+                    image: "images/All products/Wilita/W - EFAC.png"
+                },
+                {
+                    name: "Dry Synthetic Lube 450ml",
+                    description: "This product is highly resistant to centrifugal force and contains PTFE, making it ideal for lubricating hard-to-reach areas. It offers good emergency running properties and thermal stability, while being compatible with plastics and naturally gentle on painted surfaces. Additionally, it is splash and saltwater resistant, withstands weak acids and alkaline solutions, has low dirt adhesion, and provides excellent corrosion protection. ",
+                    price: "LKR 3300.00",
+                    image: "images/Popular products/Wilita/Dry_Synthetic.png"
+                },
+                {
+                    name: "Contact Cleaner 300ml",
+                    description: "Precision spray blasts away flux, oil, and grime from delicate electronics—fast-drying, plastic-safe, and contact-ready.",
+                    price: "LKR 2450.00",
+                    image: "images/All products/Wilita/W - contactC.png"
+                },
+                {
+                    name: "Automatic Transmission Flush 250ml",
+                    description: "Engineered to remove harmful deposits, Wilita Automatic Transmission Flush improves shifting performance, enhances overall efficiency, and extends the life of your automatic transmission.",
+                    price: "LKR 1050.00",
+                    image: "images/All products/Wilita/W - ATF.png"
+                },
+                {
+                    name: "Windshield Washer Fluid 60ml",
+                    description: "Introducing Wilita Wiper Washer Fluid, a high-quality solution designed to ensure clear visibility and optimal performance of your vehicle's windshield wipers. This advanced formula is specifically formulated to effectively clean your windshield, remove dirt, grime, bugs, and road debris, providing a streak-free and crystal-clear view, even in the most challenging driving conditions. Wilita Wiper Washer Fluid is engineered to deliver exceptional cleaning power without compromising the integrity of your vehicle's wiper blades or windshield. The carefully selected ingredients work synergistically to break down and dissolve stubborn contaminants, ensuring thorough cleaning and maximum clarity. ",
+                    price: "LKR 450.00",
+                    image: "images/Popular products/Wilita/Windshield_washer.png"
+                }
+            ],
+            alloygator: [
+            {
+                    name: "Alloygator - Blue",
+                    description: "AlloyGator is a durable wheel protection system designed to prevent curb damage and scratches. Made from tough, impact-resistant material, it enhances both protection and style. Available in five colors, it offers a sleek, customized look while keeping your wheels flawless. ",
+                    price: "$79.99",
+                    image: "images/Popular products/Alloygator/Blue.jpg"
+                },
+                {
+                    name: "Alloygator - Black",
+                    description: "AlloyGator is a durable wheel protection system designed to prevent curb damage and scratches. Made from tough, impact-resistant material, it enhances both protection and style. Available in five colors, it offers a sleek, customized look while keeping your wheels flawless. ",
+                    price: "$34.99",
+                    image: "images/Popular products/Alloygator/Black.jpg"
+                },
+                {
+                    name: "Alloygator - Graphite",
+                    description: "AlloyGator is a durable wheel protection system designed to prevent curb damage and scratches. Made from tough, impact-resistant material, it enhances both protection and style. Available in five colors, it offers a sleek, customized look while keeping your wheels flawless. ",
+                    price: "$49.99",
+                    image: "images/Popular products/Alloygator/Graphite.jpg"
+                },
+                {
+                    name: "Alloygator - Red",
+                    description: "AlloyGator is a durable wheel protection system designed to prevent curb damage and scratches. Made from tough, impact-resistant material, it enhances both protection and style. Available in five colors, it offers a sleek, customized look while keeping your wheels flawless. ",
+                    price: "$39.99",
+                    image: "images/Popular products/Alloygator/Red.jpg"
+                },
+                {
+                    name: "Alloygator - Silver",
+                    description: "AlloyGator is a durable wheel protection system designed to prevent curb damage and scratches. Made from tough, impact-resistant material, it enhances both protection and style. Available in five colors, it offers a sleek, customized look while keeping your wheels flawless. ",
+                    price: "$29.99",
+                    image: "images/Popular products/Alloygator/Silver.jpg"
+                }
+            ],
+            shinemate: [
+                {
+                    name: "SHINEMATE - EX-620 DUAL ACTION POLISHER",
+                    description: "The ShineMate EX-620 rotary polisher is available in two sizes, 15mm and 21mm, offering flexibility for different detailing needs. The 15mm model is ideal for precision work and fine paint correction, while the 21mm version provides faster cutting power for larger surface areas and more aggressive defect removal. Both models feature a powerful 1200W motor and adjustable speed settings, ensuring consistent performance for both professionals and enthusiasts. With ergonomic designs and efficient cooling systems, the EX-620 guarantees smooth, swirl-free finishes with superior control, no matter the size you choose.",
+                    price: "$79.99",
+                    image: "images/All products/shinemate/SM - EX620.png"
+                },
+                {
+                    name: "SHINEMATE - EP-802 ROTARY MACHINE",
+                    description: "The ShineMate EP802 is a reliable rotary polisher with a 1050W motor (max 1500W), delivering consistent performance for a variety of detailing tasks. With a speed range of 700–2500 RPM, it offers precise control for both polishing and paint correction. The EP802 comes standard with a 150mm (6\") backing plate, while also including a 125mm (5\") plate for added versatility. It is compatible with 150mm (6\") to 180mm (7\") polishing pads. Equipped with a double-reduction gear system and an M14 output shaft, the EP802 ensures durability and efficiency. Weighing just 2.2 kg, it is easy to handle and provides excellent maneuverability without sacrificing power.",
+                    price: "$79.99",
+                    image: "images/All products/shinemate/SM - EP802.png"
+                },
+                {
+                    name: "SHINEMATE - EP-803K MINI ROTARY POLISHER",
+                    description: "The rotary mini polisher is designed for precision detailing, allowing access to tight areas and intricate surfaces with ease. It delivers powerful and controlled performance, making it ideal for spot corrections, swirl removal, and achieving a flawless finish on hard-to-reach areas.",
+                    price: "$79.99",
+                    image: "images/All products/shinemate/SM - EP803K.png"
+                },
+                {
+                    name: "SHINEMATE FLEXIBLE SHAFT - POLISHING TOOL KIT - MPK3",
+                    description: "The flexible shaft polishing tool is designed for automotive detailing, providing precision polishing in hard-to-reach areas. It features a flexible, lockable shaft for easy pad changes and can be mounted on both rotary polishers and drills. The kit includes multiple accessories to enhance versatility and efficiency",
+                    price: "LKR 27250.00",
+                    image: "images/All products/shinemate/SM - PTK.png"
+                },
+                {
+                    name: "SHINEMATE - V80 HEAVY-CUT COMPOUND - 500ml",
+                    description: "The ShineMate V80 is a heavy-cut compound designed for removing deep scratches, oxidation, and heavy defects with ease. Its high-cutting power ensures fast and effective correction, making it ideal for professional detailing and restoration. Perfect for use with rotary or dual-action polishers, the V80 delivers smooth results while minimizing dust and residue.",
+                    price: "LKR 6150.00",
+                    image: "images/Popular products/shinemate/SM - V80.png"
+                },
+                {
+                    name: "SHINEMATE - V82 ONE-STEP POLISH - 500ml",
+                    description: "The ShineMate V82 is a fast-cut and polish formula, perfect for quick jobs and high-quality detailing. It efficiently removes defects while delivering a smooth, glossy finish in one step, making it ideal for professionals and enthusiasts alike",
+                    price: "LKR 7950.00",
+                    image: "images/Popular products/shinemate/SM - V82.png"
+                },
+                {
+                    name: "SHINEMATE - V20 FINAL POLISHING- 500ml",
+                    description: "The ShineMate V-20 is a final polishing compound designed to provide a flawless, high-gloss finish. Ideal for removing light scratches and swirl marks, it delivers a smooth, mirror-like shine without leaving any haze or residue. Perfect for the final stage of detailing, the V-20 ensures professional-grade results with minimal effort",
+                    price: "LKR 7950.00",
+                    image: "images/Popular products/shinemate/SM - V20.png"
+                },
+                {
+                    name: "SHINEMATE - T80 FLAT FACE HIGH CUT 6 inch - Yellow",
+                    description: "Yellow T80 high cut  foam has an intensive cutting action that will remove deep scratches, over spray, severe swirl marks, 1500# sanding disk marks, and heavy oxidation when used in conjunction with heavy polishing compounds.",
+                    price: "LKR 2950.00",
+                    image: "images/Popular products/shinemate/SM - T80.png"
+                },
+                {
+                    name: "SHINEMATE - T120 FLAT FACE HEAVY CUT- 6inch - Green",
+                    description: "Green T120 heavy cut foam is in solid construction, it fast removes the deep scratches, over spray, 1500# sanding disc marks, and heavy oxidation. Cut like wool pad and leave high gloss finish. Applicable for scratch resistant and high solid ceramic paints.",
+                    price: "LKR 2950.00",
+                    image: "images/All products/shinemate/SM - FFgreen.png"
+                },
+                {
+                    name: "SHINEMATE - T10 DIAMOND FINISHING- 6inch - Red",
+                    description: "Red T10 foam has very light cleaning action for removal of ultra-fine swirl marks, car wash scratches, and hazing, leaving a swirl-free gloss finish when used in conjunction with finishing polishes.",
+                    price: "LKR 2750.00",
+                    image: "images/All products/shinemate/SM - DFRed.png"
+                },
+                {
+                    name: "SHINEMATE - T120 DIAMOND HEAVY CUT 6 inch - Green",
+                    description: "Green T120 heavy cut foam is in solid construction, it fast removes the deep scratches, over spray, 1500# sanding disc marks, and heavy oxidation. Cut like wool pad and leave high gloss finish. Applicable for scratch resistant and high solid ceramic paints.",
+                    price: "LKR 3350.00",
+                    image: "images/Popular products/shinemate/SM - T120.png"
+                },
+                {
+                    name: "SHINEMATE - HIGH NAP WOOL PAD - 6inch ",
+                    description: "The high-nap wool pad delivers increased cutting performance, effectively removing 1500# sanding marks, deep scratches, and heavy oxidation. Designed for fast cutting, it provides a smooth and glossy finish, making it ideal for both DA and rotary polishers.",
+                    price: "LKR 3875.00",
+                    image: "images/All products/shinemate/SM - HNWool.png"
+                },
+                {
+                    name: "SHINEMATE - SINGLE-SIDE WOOL PAD 7 inch",
+                    description: "The Shintemate 7″ Inch white single-side wool pad for polishing is made from premium-grade 100% Australian 4-ply wool, representing a pinnacle of quality and performance. This carefully selected material ensures that every polishing task, from rubbing to refining, is executed with utmost precision and excellence.",
+                    price: "LKR 3200.00",
+                    image: "images/Popular products/shinemate/SM - woolpad.png"
+                }
+            ],
+            tac: [
+                {
+                    name: "TAC SYSTEMS- OIL ZERO - 1000ml",
+                    description: "Oil Zero is an effective, intense oil remover and degreaser that dissolves oil particles and removes polish residue from paintwork. Water-based and silicone-free, it is safe for all surfaces and provides an anti-static effect on treated panels.",
+                    price: "",
+                    image: "images/Popular products/TAC/TAC - OZ.png"
+                },
+                {
+                    name: "TAC SYSTEMS - UHS CERAMIC COATING",
+                    description: "High-gloss, ultra-durable ceramic coating that enhances paint depth and repels water, dirt, and contaminants. Offers strong UV and chemical resistance for long-term protection and brilliant gloss.",
+                    price: "",
+                    image: "images/Popular products/TAC/TAC - UHS.png"
+                },
+                {
+                    name: "TAC SYSTEMS - WATER GLASS (Spray & Rinse)",
+                    description: "Silica sealant that boosts gloss and slickness with extreme water repellency. Quick spray-on, rinse-off application provides durable UV and chemical protection for paint, glass, plastic, and wheels.",
+                    price: "LKR 7250.00",
+                    image: "images/Popular products/TAC/TAC - WG.png"
+                },
+                {
+                    name: "TAC SYSTEMS - MOON LIGHT - 250ml",
+                    description: "Oil-based topical maintenance coating with 25% SiO2. Delivers deep gloss and hydrophobic protection for up to 12 months. Ideal as a topper for coatings or as a durable stand‑alone layer.",
+                    price: "LKR 36000.00",
+                    image: "images/Popular products/TAC/TAC - ML.png"
+                },
+                {
+                    name: "TAC SYSTEMS - WATER SPOT REMOVER - 100ml",
+                    description: "Removes water spots, etching, and mineral deposits from glass with minimal effort. Restores clarity by breaking the bond between deposits and the substrate for a clean, clear finish.",
+                    price: "LKR 3680.00",
+                    image: "images/Popular products/TAC/TAC - WSR.png"
+                }
+            ]
+        };
+
+        // Function to get URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Add click event listeners to brand logos (fixes brand switching)
+        document.querySelectorAll('.brand-logo').forEach(logo => {
+            logo.addEventListener('click', (e) => {
+                document.querySelectorAll('.brand-logo').forEach(l => l.classList.remove('active'));
+                e.target.classList.add('active');
+                displayProducts(e.target.dataset.brand);
+            });
+        });
+
+        // Function to display products for a specific brand
+        function displayProducts(brand) {
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = '';
+
+            // Update active brand logo
+            document.querySelectorAll('.brand-logo').forEach(logo => {
+                if (logo.dataset.brand === brand) {
+                    logo.classList.add('active');
+                } else {
+                    logo.classList.remove('active');
+                }
+            });
+
+            products[brand].forEach((product, index) => {
+                const productCard = `
+                    <div class="product-card" data-brand="${brand}" data-index="${index}">
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <h3 class="product-title">${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <p class="product-price">${product.price}</p>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                `;
+                productsGrid.innerHTML += productCard;
+            });
+
+            // Add click event listeners to product cards for modal
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('add-to-cart')) return;
+                    const brand = card.getAttribute('data-brand');
+                    const index = card.getAttribute('data-index');
+                    openProductModal(`${brand}-${index}`);
+                });
+            });
+        }
+
+        // Product Modal Functions (improved to match shop.html)
+        function openProductModal(productId) {
+            const [brand, index] = productId.split('-');
+            const product = products[brand][index];
+            document.getElementById('modalProductImage').src = product.image;
+            document.getElementById('modalProductTitle').textContent = product.name;
+            document.getElementById('modalProductPrice').textContent = product.price;
+            document.getElementById('modalProductDescription').textContent = product.description;
+            document.getElementById('modalQty').value = 1;
+            // Sample features (customize per product as needed)
+            const features = [
+                'Premium quality materials',
+                'Professional-grade performance',
+                'Long-lasting results',
+                'Easy to use'
+            ];
+            let featuresHTML = '<div class="modal-features-title">Product Features:</div><ul class="modal-features-list">';
+            features.forEach(f => {
+                featuresHTML += `<li><span class='checkmark'>&#10003;</span> ${f}</li>`;
+            });
+            featuresHTML += '</ul>';
+            document.getElementById('modalProductFeatures').innerHTML = featuresHTML;
+            document.getElementById('productModal').classList.add('show');
+        }
+        document.getElementById('closeModal').onclick = function() {
+            document.getElementById('productModal').classList.remove('show');
+        };
+        window.onclick = function(event) {
+            const modal = document.getElementById('productModal');
+            if (event.target === modal) {
+                modal.classList.remove('show');
+            }
+        };
+        // Quantity controls
+        document.getElementById('qtyMinus').onclick = function() {
+            const qtyInput = document.getElementById('modalQty');
+            let val = parseInt(qtyInput.value, 10);
+            if (val > 1) qtyInput.value = val - 1;
+        };
+        document.getElementById('qtyPlus').onclick = function() {
+            const qtyInput = document.getElementById('modalQty');
+            qtyInput.value = parseInt(qtyInput.value, 10) + 1;
+        };
+        // Close modal on ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('productModal').classList.remove('show');
+            }
+        });
+
+        // Check URL for brand parameter and display appropriate products
+        const brandParam = getUrlParameter('brand');
+        if (brandParam && products[brandParam]) {
+            displayProducts(brandParam);
+        } else {
+            // Display Cleanbro products by default
+            displayProducts('cleanbro');
+        }
+    </script>
+</body>
+</html> 

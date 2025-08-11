@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Care Services</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Adding a modern font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo"><img src="images/logos/The_Automotive-removebg-preview.png" height="40px" alt="Auto Care Logo"></div>
+        <div class="nav-links">
+            <a href="index.html" class="active">Home</a>
+            <a href="shop.html">Shop Now</a>
+            <a href="products.html">Products</a>
+            <a href="contact.html">Contact Us</a>
+            <a href="blog.html">Blog/News</a>
+            <a href="training.html">Training Programs</a>
+            <button class="login-btn">Login</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Revitalize Your Ride<br>with Expert Care</h1>
+            <p>Experience unparalleled car care with our expert services. Trust us to keep your vehicle in top condition.</p>
+            <div class="hero-buttons">
+                <a href="shop.html" class="primary-btn">Book Now</a>
+                <button class="secondary-btn">Discover</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="video-wrapper">
+                <iframe
+                    src="https://www.youtube.com/embed/fGH7mDI1Psc?autoplay=1&mute=1&loop=1&playlist=fGH7mDI1Psc&controls=0&showinfo=0&modestbranding=1&rel=0&fs=0&disablekb=1"
+                    title="Auto Shop Video"
+                    allow="autoplay; encrypted-media"
+                    allowfullscreen
+                ></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brands Section -->
+    <section class="brands">
+        <div class="brands-background">
+            <div class="brands-background-slider">
+                <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&q=80" alt="Luxury Car" class="active">
+                <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80" alt="Sports Car">
+                <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80" alt="Classic Car">
+                <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80" alt="Muscle Car">
+            </div>
+        </div>
+        <div class="brands-container">
+            <div class="brands-row">
+                <div class="brand-card" onclick="window.location.href='products.html?brand=cleanbro'">
+                    <img src="images/logos/cleanbro.png" alt="Cleanbro">
+                    <div class="brand-info">
+                        <h3>Cleanbro</h3>
+                        <p>Cleanbro is a brand established under The Mita Company, LTD，Japan, in 2014. Founded in 1967 as a specialized wiper manufacturer.</p>
+                    </div>
+                </div>
+
+                <div class="brand-card" onclick="window.location.href='products.html?brand=wilita'">
+                    <img src="images/logos/Wilita_Logo_highres-01.png" alt="Wilita">
+                    <div class="brand-info">
+                        <h3>Wilita</h3>
+                        <p>High-performance automotive products for the ultimate driving experience. Race-proven quality.</p>
+                    </div>
+                </div>
+
+                <div class="brand-card" onclick="window.location.href='products.html?brand=alloygator'">
+                    <img src="images/logos/Alloygator/Large/Primary Logo - Green & Grey@4x.png" alt="Alloygator">
+                    <div class="brand-info">
+                        <h3>Alloygator</h3>
+                        <p>Luxury car care products and services. Exclusive solutions for discerning automotive enthusiasts.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="brands-row">
+                <div class="brand-card" onclick="window.location.href='products.html?brand=shinemate'">
+                    <img src="images/logos/shinemate_logo.png" alt="ShineMate">
+                    <div class="brand-info">
+                        <h3>ShineMate</h3>
+                        <p>Elite automotive finishing products. Setting the standard in professional detailing excellence.</p>
+                    </div>
+                </div>
+
+                <div class="brand-card" onclick="window.location.href='products.html?brand=tac'">
+                    <img src="images/TAS/304494204_446501304180989_4901667174208258646_n-removebg-preview.png" alt="TAC Systems">
+                    <div class="brand-info">
+                        <h3>TAC Systems</h3>
+                        <p>Performance-focused automotive solutions. Engineered for maximum power and efficiency.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .brands {
+            padding: 4rem 2rem;
+            background: #f8f9fa;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brands-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .brands-background-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .brands-background-slider img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .brands-background-slider img.active {
+            opacity: 0.15;
+        }
+
+        .brands-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .brands-row {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .brands-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .brand-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .brand-card img {
+            max-width: 100%;
+            height: auto;
+            transition: all 0.3s ease;
+            object-fit: contain;
+        }
+
+        /* Specific adjustments for TAC Systems and ShineMate logos */
+        .brand-card img[alt="TAC Systems"] {
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        .brand-card img[alt="ShineMate"] {
+            max-width: 85%;
+            max-height: 85%;
+        }
+
+        .brand-card:hover img {
+            filter: grayscale(100%) brightness(0.8);
+        }
+
+        .brand-card .brand-info {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            padding: 20px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+        }
+
+        .brand-card:hover .brand-info {
+            opacity: 1;
+        }
+
+        .brand-card h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .brand-card p {
+            margin: 0;
+            color: #444;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 1024px) {
+            .brands-row {
+                flex-wrap: wrap;
+            }
+            
+            .brand-card {
+                width: calc(50% - 1rem);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .brand-card {
+                width: 100%;
+            }
+        }
+    </style>
+
+    <!-- Testimonial Section -->
+    <section class="testimonial">
+        <div class="testimonial-slides" aria-live="polite">
+            <div class="testimonial-slide active">
+                <div class="testimonial-grid">
+                    <div class="testimonial-image">
+                        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&q=80" alt="Vintage muscle car in dark garage with red lighting">
+                    </div>
+                    <div class="testimonial-content">
+                        <div class="star-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <blockquote>
+                            "The service was exceptional! My car feels brand new and shines like never before!"
+                        </blockquote>
+                        <div class="testimonial-author">
+                            <div class="author-info">
+                                <span class="author-name">John Doe</span>
+                                <span class="author-title">Car Enthusiast</span>
+                            </div>
+                            <div class="powered-by">
+                                <img src="https://assets.website-files.com/5e8b3356dcad1766ad544f4b/5e8b359d4d68cf23bdae1c13_webflow-badge-icon.svg" alt="Webflow" class="webflow-logo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-slide">
+                <div class="testimonial-grid">
+                    <div class="testimonial-image">
+                        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80" alt="Red sports car on race track">
+                    </div>
+                    <div class="testimonial-content">
+                        <div class="star-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <blockquote>
+                            "Booking was easy and the results were incredible. Attention to detail is unmatched."
+                        </blockquote>
+                        <div class="testimonial-author">
+                            <div class="author-info">
+                                <span class="author-name">Sarah Lee</span>
+                                <span class="author-title">Daily Driver</span>
+                            </div>
+                            <div class="powered-by">
+                                <img src="https://assets.website-files.com/5e8b3356dcad1766ad544f4b/5e8b359d4d68cf23bdae1c13_webflow-badge-icon.svg" alt="Webflow" class="webflow-logo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-slide">
+                <div class="testimonial-grid">
+                    <div class="testimonial-image">
+                        <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80" alt="Classic car in studio lighting">
+                    </div>
+                    <div class="testimonial-content">
+                        <div class="star-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <blockquote>
+                            "Professional team with top-tier products. My classic looks concours-ready."
+                        </blockquote>
+                        <div class="testimonial-author">
+                            <div class="author-info">
+                                <span class="author-name">Michael Chen</span>
+                                <span class="author-title">Collector</span>
+                            </div>
+                            <div class="powered-by">
+                                <img src="https://assets.website-files.com/5e8b3356dcad1766ad544f4b/5e8b359d4d68cf23bdae1c13_webflow-badge-icon.svg" alt="Webflow" class="webflow-logo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-nav">
+            <button class="nav-button prev" aria-label="Previous testimonial">←</button>
+            <button class="nav-button next" aria-label="Next testimonial">→</button>
+        </div>
+    </section>
+
+   
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="images/logos/The_Automotive-removebg-preview.png" alt="Auto Care" class="footer-logo">
+                <p class="footer-tagline">Expert auto care, premium products, and trusted service.
+                </p>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram" class="social-link">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"></rect><circle cx="12" cy="12" r="3.5" fill="none" stroke="currentColor" stroke-width="2"></circle><circle cx="17.5" cy="6.5" r="1.25" fill="currentColor"></circle></svg>
+                    </a>
+                    <a href="#" aria-label="Facebook" class="social-link">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"></rect><path d="M15 8h-2a1 1 0 0 0-1 1v2h3l-.5 3h-2.5v6h-3v-6H7v-3h2V9a3 3 0 0 1 3-3h3v3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </a>
+                    <a href="#" aria-label="youtube" class="social-link">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"></rect><polygon points="10,9 16,12 10,15" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></polygon></svg>
+                    </a>
+                        
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul class="footer-list">
+                    <li><a href="shop.html">Book Now</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="training.html">Training Programs</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Contact</h4>
+                <ul class="footer-list">
+                    <li>
+                        <span class="icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6l8 6 8-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="3" y="5" width="18" height="14" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                        </span>
+                        <a href="mailto:info@example.com">info@example.com</a>
+                    </li>
+                    <li>
+                        <span class="icon">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v2a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.4 19.4 0 0 1-6-6A19.8 19.8 0 0 1 2.9 3.8 2 2 0 0 1 5 1.7h2a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8.3 9a16 16 0 0 0 6 6l.9-.8a2 2 0 0 1 2.2-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <a href="tel:5551234567">(555) 123-4567</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer-newsletter">
+                <h4>Stay Updated</h4>
+                <form class="footer-form" action="#" method="post" onsubmit="return false">
+                    <input type="email" placeholder="Your email address" aria-label="Email address">
+                    <button type="submit" class="footer-btn">Subscribe</button>
+                </form>
+                <small class="footer-note">No spam. Unsubscribe anytime.</small>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Auto Care. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Background image slider
+        const images = document.querySelectorAll('.brands-background-slider img');
+        let currentImageIndex = 0;
+
+        function showNextImage() {
+            images[currentImageIndex].classList.remove('active');
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            images[currentImageIndex].classList.add('active');
+        }
+
+        // Change image every 2 seconds
+        setInterval(showNextImage, 2000);
+
+        // Testimonial slider
+        const testimonialSlides = document.querySelectorAll('.testimonial-slide');
+        const prevBtn = document.querySelector('.testimonial .nav-button.prev');
+        const nextBtn = document.querySelector('.testimonial .nav-button.next');
+        const slidesContainer = document.querySelector('.testimonial-slides');
+        let currentTestimonial = 0;
+        let isAnimating = false;
+
+        function setContainerHeightToActive() {
+            const activeSlide = testimonialSlides[currentTestimonial];
+            if (activeSlide) {
+                slidesContainer.style.height = activeSlide.offsetHeight + 'px';
+            }
+        }
+
+        function showTestimonial(nextIndex, direction = 'next') {
+            if (isAnimating || nextIndex === currentTestimonial) return;
+            isAnimating = true;
+
+            const total = testimonialSlides.length;
+            const newIndex = (nextIndex + total) % total;
+            const currentSlide = testimonialSlides[currentTestimonial];
+            const nextSlide = testimonialSlides[newIndex];
+
+            const exitClass = direction === 'next' ? 'exit-to-left' : 'exit-to-right';
+            const enterClass = direction === 'next' ? 'enter-from-right' : 'enter-from-left';
+
+            // Prepare next slide
+            nextSlide.classList.add('active', enterClass);
+            slidesContainer.style.height = nextSlide.offsetHeight + 'px';
+
+            // Start exit on current slide after reflow
+            currentSlide.classList.remove('enter-from-right', 'enter-from-left');
+            // Force reflow
+            void currentSlide.offsetWidth;
+            currentSlide.classList.add(exitClass);
+
+            // Allow the browser to paint, then remove the enter offset so it animates to 0
+            requestAnimationFrame(() => {
+                nextSlide.classList.remove(enterClass);
+            });
+
+            function onDone(e) {
+                // Only finalize when opacity/transform finishes on nextSlide
+                if (e && e.target !== nextSlide) return;
+                currentSlide.classList.remove('active', 'exit-to-left', 'exit-to-right');
+                nextSlide.classList.remove('enter-from-right', 'enter-from-left');
+                nextSlide.classList.add('active');
+                nextSlide.removeEventListener('transitionend', onDone);
+                isAnimating = false;
+            }
+
+            nextSlide.addEventListener('transitionend', onDone);
+            currentTestimonial = newIndex;
+        }
+
+        // Initialize height when DOM is ready and on resize
+        document.addEventListener('DOMContentLoaded', setContainerHeightToActive);
+        window.addEventListener('load', setContainerHeightToActive);
+        window.addEventListener('resize', setContainerHeightToActive);
+
+        prevBtn.addEventListener('click', () => showTestimonial(currentTestimonial - 1, 'prev'));
+        nextBtn.addEventListener('click', () => showTestimonial(currentTestimonial + 1, 'next'));
+    </script>
+</body>
+</html> 
